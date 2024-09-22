@@ -1,11 +1,14 @@
-import express from "express";
 import connectDB from "./db";
+import { app } from "./app";
 
-const app = express();
 const port = process.env.PORT;
 
-connectDB();
-
-app.listen(port, () => {
-  console.log(`The server is running at http://localhost:${port}/`);
-});
+connectDB()
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`Server is running at port : ${port}`);
+    });
+  })
+  .catch((err) => {
+    console.log("MONGO db connection failed !!!", err);
+  });
