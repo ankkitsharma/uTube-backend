@@ -1,4 +1,4 @@
-import { NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 
 export function asyncHandler(requestHandler) {
   return function (req: Request, res: Response, next: NextFunction) {
