@@ -156,8 +156,8 @@ export const logoutUser = asyncHandler(async function (req, res) {
   await User.findByIdAndUpdate(
     req.user._id,
     {
-      $set: {
-        refreshToken: undefined,
+      $unset: {
+        refreshToken: 1, // this removes the field from the document
       },
     },
     {
@@ -245,7 +245,7 @@ export const changeCurrentPassword = asyncHandler(async function (req, res) {
 export const getCurrentUser = asyncHandler(async function (req, res) {
   return res
     .status(200)
-    .json(200, req.user, "current user fetched successfully");
+    .json(new ApiResponse(200, req.user, "current user fetched successfully"));
 });
 
 export const updateAccountDetails = asyncHandler(async function (req, res) {
@@ -462,7 +462,7 @@ export const getWatchHistory = asyncHandler(async function (req, res) {
       new ApiResponse(
         200,
         user[0].watchHistory,
-        "Watch histor fetched successfully"
+        "Watch history fetched successfully"
       )
     );
 });
