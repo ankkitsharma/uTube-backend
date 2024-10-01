@@ -271,7 +271,7 @@ export const updateAccountDetails = asyncHandler(async function (req, res) {
     .json(new ApiResponse(200, user, "Account details updated successfully"));
 });
 
-const updateUserAvatar = asyncHandler(async function (req, res) {
+export const updateUserAvatar = asyncHandler(async function (req, res) {
   const avatarLocalPath = req.file?.path;
   try {
     if (!avatarLocalPath) {
@@ -304,7 +304,7 @@ const updateUserAvatar = asyncHandler(async function (req, res) {
   }
 });
 
-const updateUserCoverImage = asyncHandler(async function (req, res) {
+export const updateUserCoverImage = asyncHandler(async function (req, res) {
   const coverImageLocalPath = req.file?.path;
   try {
     if (!coverImageLocalPath) {
