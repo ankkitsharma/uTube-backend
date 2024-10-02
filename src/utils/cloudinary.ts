@@ -9,11 +9,12 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export const uploadOnCloudinary = async function (localFilePath: string) {
+export const uploadOnCloudinary = async function (localFilePath: string, path) {
   try {
     if (!localFilePath) return null;
     // upload the file on cloudinary
     const uploadResult = await cloudinary.uploader.upload(localFilePath, {
+      asset_folder: path,
       resource_type: "auto",
     });
 
@@ -26,5 +27,28 @@ export const uploadOnCloudinary = async function (localFilePath: string) {
   } catch (error) {
     fs.unlinkSync(localFilePath); // remove the locally saved temporary file as the opload operation got failed
     return null;
+  }
+};
+
+export const deleteFromCloudinary = async (cloudinaryFilePath, path) => {
+  try {
+    if (!cloudinaryFilePath) return null;
+    // Extract the public ID from the Cloudinary URL
+    const avatarPublicId = cloudinaryFilePath.split("/").pop().split(".")[0];
+
+    const response = await cloudinary.uploader.destroy(
+      `${path}/${avatarPublicId}`
+    );
+
+    if (response.result === "ok") {
+      console.log(`File deleted successfully: ${cloudinaryFilePath}`);
+      return true;
+    } else {
+      console.error(`Failed to delete file: ${response.result}`);
+      return false;
+    }
+  } catch (error) {
+    console.error(`Error deleting file: ${error.message}`);
+    return false;
   }
 };

@@ -58,8 +58,8 @@ export const registerUser = asyncHandler(async function (req, res) {
     console.log(req.files);
 
     // upload them to cloudinary, avatar
-    const avatar = await uploadOnCloudinary(avatarLocalPath);
-    const coverImage = await uploadOnCloudinary(coverLocalPath);
+    const avatar = await uploadOnCloudinary(avatarLocalPath, "image");
+    const coverImage = await uploadOnCloudinary(coverLocalPath, "image");
 
     if (!avatar) {
       throw new ApiError(400, "Avatar file is required");
@@ -278,7 +278,7 @@ export const updateUserAvatar = asyncHandler(async function (req, res) {
       throw new ApiError(400, "Avatar file is missing");
     }
 
-    const avatar = await uploadOnCloudinary(avatarLocalPath);
+    const avatar = await uploadOnCloudinary(avatarLocalPath, "image");
 
     if (!avatar.url) {
       throw new ApiError(400, "Error while uploading on avatar");
@@ -311,7 +311,7 @@ export const updateUserCoverImage = asyncHandler(async function (req, res) {
       throw new ApiError(400, "Cover image file is missing");
     }
 
-    const coverImage = await uploadOnCloudinary(coverImageLocalPath);
+    const coverImage = await uploadOnCloudinary(coverImageLocalPath, "image");
 
     if (!coverImage.url) {
       throw new ApiError(400, "Error while uploading on cover image");
