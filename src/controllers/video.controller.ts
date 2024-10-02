@@ -1,4 +1,4 @@
-import mongoose, { AggregatePaginateResult, isValidObjectId } from "mongoose";
+import mongoose, { isValidObjectId } from "mongoose";
 import { Video } from "../models/video.model";
 import { User } from "../models/user.model";
 import { ApiError } from "../utils/ApiError";
@@ -52,7 +52,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
     },
     {
       $sort: {
-        [sortBy]: sortType,
+        [sortBy]: sortType, // sortType: 1 means ascending order and -1 means descending order
       },
     },
     {
